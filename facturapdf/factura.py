@@ -2,6 +2,8 @@ import calendar
 import locale
 import math
 import os
+import re
+import shutil
 from datetime import datetime
 from random import randint as ran
 
@@ -44,8 +46,19 @@ def create_pdf(**kwargs):
     css_style, config, output_pdf, final_folder, options = prepare_pdf(month, year, pdf_name)
 
     # Create PDF
-    pdfkit.from_string(template, output_pdf, configuration=config, 
-                    css=css_style, options=options)
+    try:
+        pdfkit.from_string(
+            template,
+            output_pdf,
+            configuration=config,
+            css=css_style,
+            options=options,
+        )
+    except OSError as exc:
+        raise OSError(
+            f"Error al generar PDF con wkhtmltopdf. Archivo destino: '{output_pdf}'. "
+            f"Detalle: {exc}"
+        ) from exc
     
     set_number(int(receipt_number) + 1)
 
@@ -70,8 +83,11 @@ def validate_data(kwargs):
 
     desc_others = ': ' + kwargs['desc_others'] if not isinstance(kwargs['desc_others'], float) else ""
 
-    pdf_name = '{}-{}-{}.pdf'.format(kwargs['apmt'], kwargs['name'], 
-                                  kwargs['month_name'])
+    pdf_name = '{}-{}-{}.pdf'.format(
+        sanitize_filename(str(kwargs['apmt'])),
+        sanitize_filename(str(kwargs['name'])),
+        sanitize_filename(str(kwargs['month_name'])),
+    )
 
     context = {'day': day, 'month': month, 'year': year, 
                'receipt_number': receipt_number, 'name': kwargs['name'],
@@ -91,17 +107,26 @@ def calcular_total(kwargs):
     return total
 
 def prepare_pdf(month, year, pdf_name):
-    css_style = 'facturapdf/Template/style.css'
-    wkhtmltopdf_path = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    css_style = os.path.join(base_dir, 'Template', 'style.css')
+
+    env_path = os.getenv('WKHTMLTOPDF_PATH')
+    default_path = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+    detected_path = shutil.which('wkhtmltopdf')
+
+    wkhtmltopdf_path = env_path or (default_path if os.path.exists(default_path) else detected_path)
+    if not wkhtmltopdf_path:
+            raise FileNotFoundError(
+                "No se encontró wkhtmltopdf. Instálalo o define WKHTMLTOPDF_PATH."
+            )
+
     config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_path)
     
     english_month_name = calendar.month_name[int(month)]
-    output_folder = 'facturapdf/Output/{}/{}-{}'.format(year, month, 
-                                                english_month_name)
-    output_pdf = output_folder + '/' + pdf_name
+    output_folder = os.path.join(base_dir, 'Output', str(year), f'{month}-{english_month_name}')
+    output_pdf = os.path.join(output_folder, pdf_name)
     
-    final_folder = os.path.join(os.getcwd(), 
-                                output_folder.replace('/', '\\'))
+    final_folder = output_folder
                  
     create_folder(final_folder)           
 
@@ -117,6 +142,7 @@ def prepare_pdf(month, year, pdf_name):
             'margin-right' : '0mm',
             'page-width': '118mm',
             'page-height': '120mm',
+            'encoding': 'UTF-8',
             'enable-local-file-access': None
         }
         
@@ -129,16 +155,13 @@ def format_value(value):
 
 
 def create_folder(final_folder):
-    if (not os.path.exists(final_folder)):
-        try:
-            folders = final_folder.split('\\')
-            folder = '\\'.join(folders[:-1])
-            
-            os.mkdir(folder)
-        except FileExistsError:
-            pass
-        finally:
-            os.mkdir(final_folder)
+    os.makedirs(final_folder, exist_ok=True)
+
+
+def sanitize_filename(value):
+    clean_value = re.sub(r'[<>:"/\\|?*]', '-', value)
+    clean_value = re.sub(r'\s+', ' ', clean_value).strip()
+    return clean_value
 
 
 def open_pdf():

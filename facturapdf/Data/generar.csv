@@ -1,17 +1,17 @@
 date,name,apmt,saving,value,type,month_name,penalty,desc_others,value_others
-05/06/2024,Margaret Moralez,202,5000,107500,Banco,Junio,,Cuota Extraordinaria,50000
-05/06/2024,Alejandro de Az,203,5000,107500,Banco,Junio,,Cuota Extraordinaria,50000
-07/06/2024,Gustavo Urrego,204,5000,100800,Administrador,Junio,,,
-07/06/2024,Gustavo Urrego,204,5000,100800,Administrador,Julio,,,
-05/06/2024,Pedro Cantor,301,5000,120000,Banco,Junio,,Cuota Extraordinaria,50000
-08/06/2024,Juan Ortegon,302,5000,107500,Banco,Junio,,,
-10/06/2024,Miguel Paez,303,5000,107500,Administrador,Junio,,,
-05/06/2024,Juan Fonseca,304,5000,100800,Administrador,Junio,,,
-10/06/2024,Hector Mahecha,401,5000,120000,Administrador,Junio,,,
-08/06/2024,Alfonso Laiton,402,5000,107500,Administrador,Junio,,,
-08/06/2024,Elsa Galan,403,5000,100800,Administrador,Junio,,,
-05/06/2024,Rosalba Pinilla,404,5000,100800,Administrador,Junio,,,
-10/06/2024,Johana Farfan,501,5000,120000,Banco,Junio,,,
-01/06/2024,Juan Camilo Ardila,502,5000,107500,Banco,Junio,,Cuota Extraordinaria,50000
-21/05/2024,Judit Arias,504,5000,100800,Administrador,Mayo,,Cuota Extraordinaria,50000
-08/06/2024,Judit Arias,504,5000,100800,Administrador,Junio,,Cuota Extraordinaria,50000
+08/04/2026,Diana Baquero,201,15000,178000,NuBank,Abril,,,
+06/04/2026,Margaret Moralez,202,15000,138000,NuBank,Abril,,,
+08/04/2026,Alejandro de Az,203,15000,138000,NuBank,Abril,,,
+07/04/2026,Gustavo Urrego,204,30000,258000,,Abr-May,,,
+08/04/2026,Pedro Cantor,301,15000,153000,NuBank,Abril,,,
+10/04/2026,Juan Ortegon,302,15000,138000,NuBank,Abril,,,
+07/04/2026,Miguel Paez,303,15000,138000,Fondos,Abril,,,
+27/03/2026,Juan David Fonseca,304,180000,1510000,Administrador,Abr a Dic 2026 - Ene a Mar 2027,,,
+10/04/2026,Hector Mahecha,401,15000,153000,Administrador,Abril,,,
+10/04/2026,Alfonso Laiton,402,15000,138000,Administrador,Abril,,,
+10/04/2026,Elsa Galan,403,15000,138000,Administrador,Abril,,,
+07/04/2026,Rosalba Pinilla,404,15000,129000,Administrador,Abril,,,
+08/04/2026,Johana Farfan,501,15000,153000,NuBank,Abril,,,
+01/04/2026,Juan Camilo Ardila,502,15000,138000,NuBank,Abril,,,
+10/04/2026,Zulay Ortega,503,15000,138000,Administrador,Abril,,,
+16/03/2026,Judit Arias,504,0,632000,NuBank,Nov-Dic 2025 - Ene a Mar 2026,51000,,
